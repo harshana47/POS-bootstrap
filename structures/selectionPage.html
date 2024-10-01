@@ -160,6 +160,10 @@
 
         /* Further adjustments for smaller screens */
         @media (max-width: 768px) {
+            .container {
+                width: 100%; /* Default size for larger screens */
+                height: 400px; /* Adjust height */
+            }
             .card1 {
                 display: none;
             }
@@ -172,7 +176,7 @@
                 width: 8rem; /* Fixed width for cards */
                 height: 8rem; /* Fixed height for cards */
                 position: absolute; /* Absolute positioning for specific placements */
-                top: 250px; /* Position for top card */
+                top: 200px; /* Position for top card */
                 left: 38%;
             }
 
@@ -180,7 +184,7 @@
                 width: 8rem; /* Fixed width for cards */
                 height: 8rem; /* Fixed height for cards */
                 position: absolute; /* Absolute positioning for specific placements */
-                top: 250px; /* Position for top card */
+                top: 200px; /* Position for top card */
                 left: 70%;
             }
 
@@ -188,27 +192,34 @@
                 width: 8rem; /* Fixed width for cards */
                 height: 8rem; /* Fixed height for cards */
                 position: absolute; /* Absolute positioning for specific placements */
-                top: 250px; /* Position for top card */
+                top: 200px; /* Position for top card */
                 left: 5%;
+            }
+
+            .maintag{
+                font-size: 30px;
+                font-weight: bold;
+                position: absolute;
+                left: 36%;
+                top: 90px;
             }
 
             p {
                 font-size: 14px; /* Smaller paragraph for mobile */
+                position: absolute;
+                left: 33%;
+                top: 120px;
+            }
+            .navbar-toggler {
+                display: none;
             }
 
             @media (max-width: 425px) {
                 .container {
-                    width: 425px; /* Default size for larger screens */
-                    box-shadow: 1px 1px 10px #000000;
-                    background-image: url('../assets/images/background/img_7.png');
-                    background-size: cover;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    padding: 20px;
-                    margin: 20px auto; /* Center the container */
-                    position: relative;
+                    width: 95%; /* Default size for larger screens */
                     height: auto; /* Adjust height */
-                    top: 75px;
+                    top: 135px;
+                    margin: 10px;
                 }
 
                 .card3 {
@@ -254,56 +265,53 @@
             /* Adjustments for 375px */
             @media (max-width: 375px) {
                 .container {
-                    width: 375px; /* Default size for larger screens */
-                    box-shadow: 1px 1px 10px #000000;
-                    background-image: url('../assets/images/background/img_7.png');
-                    background-size: cover;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    padding: 20px;
-                    margin: 20px auto; /* Center the container */
-                    position: relative;
+                    width: 95%; /* Default size for larger screens */
                     height: auto; /* Adjust height */
+                    margin: 10px;
                     top: 75px;
                 }
 
                 .card3 {
-                    width: 7rem; /* Adjust width */
-                    height: 7rem; /* Adjust height */
+                    width: 80px; /* Adjust width */
+                    height: 80px; /* Adjust height */
                     position: absolute; /* Absolute positioning */
-                    top: 50px; /* Adjust position */
-                    left: 37%; /* Center horizontally */
+                    top: 130px; /* Adjust position */
+                    left: 39%; /* Center horizontally */
                 }
 
                 .card4 {
-                    width: 7rem; /* Adjust width */
-                    height: 7rem; /* Adjust height */
+                    width: 80px; /* Adjust width */
+                    height: 80px; /* Adjust height */
                     position: absolute; /* Absolute positioning */
-                    top: 50px; /* Adjust position */
-                    left: 68%; /* Adjust position */
+                    top: 130px; /* Adjust position */
+                    left: 71%; /* Adjust position */
                 }
 
                 .card5 {
-                    width: 7rem; /* Adjust width */
-                    height: 7rem; /* Adjust height */
+                    width: 80px; /* Adjust width */
+                    height: 80px; /* Adjust height */
                     position: absolute; /* Absolute positioning */
-                    top: 50px; /* Adjust position */
-                    left: 5%; /* Adjust position */
+                    top: 130px; /* Adjust position */
+                    left: 6%; /* Adjust position */
                 }
 
                 p {
                     font-size: 12px; /* Smaller font size for mobile */
-                    top: 70px;
+                    top: 90px;
                     position: absolute;
                     left: 30%;
 
                 }
 
                 .maintag {
-                    top: 45px;
+                    top: 65px;
                     position: absolute;
                     font-size: 26px;
                     left: 35%;
+                }
+                .btn-primary{
+                    font-size: 12px;
+                    align-content: center;
                 }
 
                 /* Adjustments for 325px */
@@ -312,24 +320,24 @@
                         width: 5rem; /* Adjust width */
                         height: 5rem; /* Adjust height */
                         position: absolute; /* Absolute positioning */
-                        top: 200px; /* Adjust position */
-                        left: 40%; /* Center horizontally */
+                        top: 125px; /* Adjust position */
+                        left: 38%; /* Center horizontally */
                     }
 
                     .card4 {
                         width: 5rem; /* Adjust width */
                         height: 5rem; /* Adjust height */
                         position: absolute; /* Absolute positioning */
-                        top: 200px; /* Adjust position */
-                        left: 60%; /* Adjust position */
+                        top: 125px; /* Adjust position */
+                        left: 70%; /* Adjust position */
                     }
 
                     .card5 {
                         width: 5rem; /* Adjust width */
                         height: 5rem; /* Adjust height */
                         position: absolute; /* Absolute positioning */
-                        top: 200px; /* Adjust position */
-                        left: 10%; /* Adjust position */
+                        top: 125px; /* Adjust position */
+                        left: 5%; /* Adjust position */
                     }
 
                     p {
@@ -345,6 +353,9 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item" style="font-size: 20px">
@@ -385,21 +396,21 @@
             <div class="card3">
                 <img src="../assets/images/icons/img_5.png" class="card-img-top" alt="..." style="width: 100%; height: auto;">
                 <div class="card-body">
-                    <a href="#" class="btn btn-primary" style="width: 100%;">Items</a>
+                    <a href="#" class="btn btn-primary" style="height: 50%; width: 100%; border-radius: 0;">Items</a>
                 </div>
             </div>
 
             <div class="card4">
                 <img src="../assets/images/icons/img_7.png" class="card-img-top" alt="..." style="width: 100%; height: auto;">
                 <div class="card-body">
-                    <a href="#" class="btn btn-primary" style="width: 100%;">Customers</a>
+                    <a href="#" class="btn btn-primary" style="height: 50%; width: 100%; border-radius: 0;">Customers</a>
                 </div>
             </div>
 
             <div class="card5">
                 <img src="../assets/images/icons/img_11.jpg" class="card-img-top" alt="..." style="width: 100%; height: auto;">
                 <div class="card-body">
-                    <a href="#" class="btn btn-primary" style="width: 100%;">Orders</a>
+                    <a href="#" class="btn btn-primary" style="height: 10%; width: 100%; border-radius: 0; align-content: center; align-self: center">Orders</a>
                 </div>
             </div>
         </div>
