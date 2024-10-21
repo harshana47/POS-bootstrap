@@ -96,23 +96,44 @@ const loadOrderTable = () => {
     });
 };
 
+$("#oCustomer").on("keypress", function (e) {
+    if (e.which === 13) { // Check if Enter key is pressed
+        let customer_contact = $(this).val(); // Get the contact input value
+
+        // Find the customer by contact
+        let customer = customer_array.find(c => c.contact === customer_contact);
+        if (customer) {
+            // If customer is found, populate the customer name input
+            $("#oCustomerName").val(customer.name); // Assuming customer has a 'name' property
+        } else {
+            alert("Customer not found.");
+            $("#oCustomerName").val(''); // Clear the name field if not found
+        }
+    }
+});
+
 $("#order_add_button").on("click", function () {
-    let customer_id = parseInt($("#oCustomer").val());
+    let customer_contact = $("#oCustomer").val(); // Get the contact input value
     let item_id = parseInt($("#oProduct").val());
     let quantity = parseInt($("#oQuantity").val());
 
     // Validate inputs
-    if (isNaN(customer_id) || isNaN(item_id) || isNaN(quantity) || quantity <= 0) {
+    if (!customer_contact || isNaN(item_id) || isNaN(quantity) || quantity <= 0) {
         alert("Please enter valid order details.");
         return;
     }
 
-    let customer = customer_array.find(c => c.id === customer_id);
+    // Find the customer by contact
+    let customer = customer_array.find(c => c.contact === customer_contact);
     if (!customer) {
         alert("Customer not found.");
         return;
     }
 
+    // Use the customer ID from the found customer
+    let customer_id = customer.id;
+
+    // Find the item
     let item = item_array.find(i => i.id === item_id);
     if (!item) {
         alert("Item not found.");
@@ -134,6 +155,7 @@ $("#order_add_button").on("click", function () {
 
     // Reset individual fields
     $("#oCustomer").val('');
+    $("#oCustomerName").val(''); // Clear customer name
     $("#oProduct").val('');
     $("#oQuantity").val('');
 });
