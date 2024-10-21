@@ -118,59 +118,46 @@
 <div class="container text-center hidden" id="orders">
     <div class="row mb-4">
         <div class="col-md-6">
-            <label class="form-label text-white">Order ID:</label>
-            <input type="text" class="form-control" placeholder="Id">
-        </div>
-        <div class="col-md-6">
             <label class="form-label text-white">Customer Contact:</label>
-            <input type="text" class="form-control" placeholder="Name">
+            <input type="text" class="form-control" placeholder="Name" id="oCustomer">
         </div>
     </div>
 
     <div class="row mb-4">
         <div class="col-md-6">
             <label class="form-label text-white">Product ID:</label>
-            <input type="text" class="form-control" placeholder="Id">
+            <input type="text" class="form-control" placeholder="Id" id="oProduct">
         </div>
         <div class="col-md-6">
             <label class="form-label text-white">Quantity:</label>
-            <input type="text" class="form-control" placeholder="Price">
+            <input type="text" class="form-control" placeholder="Price" id="oQuantity">
         </div>
     </div>
 
     <table class="table mb-4">
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">ID</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="cashier_tbody">
         <tr>
             <th scope="row">1</th>
             <td>Mark</td>
             <td>Otto</td>
             <td>@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
+            <td>@mdo</td>
         </tr>
         </tbody>
     </table>
 
     <div class="d-flex justify-content-between">
         <div>
-            <button type="button" class="btn btn-primary me-2">Add</button>
+            <button type="button" id="order_add_button" class="btn btn-primary me-2">Add</button>
             <button type="button" class="btn btn-secondary me-2">Search</button>
             <button type="button" class="btn btn-warning me-2">Clear</button>
             <button type="button" class="btn btn-danger">Delete</button>
@@ -202,7 +189,7 @@
             <th>Price</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="item_table_body">
         <tr>
             <td>1</td>
             <td>Raththi</td>
@@ -264,7 +251,7 @@
                 <th>Contact</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="customer_table_body">
             <tr>
                 <td>1</td>
                 <td>Sile</td>
@@ -300,72 +287,60 @@
     </div>
 </div>
 
-<div class="container card hidden" id="addCustomerForm" style="width: 400px; height: 450px; left: 37%; top: 23%;">
+<div class="container card hidden" id="addCustomerForm" style="width: 400px; height: 400px; left: 37%; top: 23%;">
     <div class="card-header" style="background-color: #36c826">
         New Customer
     </div>
     <div class="card-body">
         <div class="mb-3">
-            <label for="cId" class="form-label">ID :</label>
-            <div class="input-group">
-                <input type="text" class="form-control" id="cId" aria-describedby="basic-addon3 basic-addon4">
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="cName" class="form-label">Name :</label>
+            <label for="cName" class="form-label" style="color: white">Name :</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="cName" aria-describedby="basic-addon3 basic-addon4">
             </div>
         </div>
         <div class="mb-3">
-            <label for="cAddress" class="form-label">Address :</label>
+            <label for="cAddress" class="form-label" style="color: white">Address :</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="cAddress" aria-describedby="basic-addon3 basic-addon4">
             </div>
         </div>
         <div class="mb-3">
-            <label for="cContact" class="form-label">Contact :</label>
+            <label for="cContact" class="form-label" style="color: white">Contact :</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="cContact" aria-describedby="basic-addon3 basic-addon4">
             </div>
         </div>
-        <button type="button" class="btn btn-primary" style="right: 170px; position: absolute">Save</button>
-        <button type="button" class="btn btn-secondary" style="right: 85px; position: absolute">Update</button>
-        <button type="button" class="btn btn-danger" onclick="hideAddCustomerForm()"  style="right: 15px; position: absolute">Close</button>
+        <button type="button" id="customer_add_button" class="btn btn-primary" style="right: 190px; position: absolute">Save</button>
+        <button type="button" class="btn btn-secondary" style="right: 105px; position: absolute">Update</button>
+        <button type="button" class="btn btn-danger" onclick="hideAddCustomerForm()"  style="right: 35px; position: absolute">Close</button>
     </div>
 </div>
-<div class="container card" id="addItemForm" style="width: 400px; height: 450px; left: 37%; top: 23%;">
+<div class="container card" id="addItemForm" style="width: 400px; height: 400px; left: 37%; top: 23%;">
     <div class="card-header" style="background-color: #36c826">
         New Item
     </div>
     <div class="card-body">
         <div class="mb-3">
-            <label for="pId" class="form-label">ID :</label>
-            <div class="input-group">
-                <input type="text" class="form-control" id="pId" aria-describedby="basic-addon3 basic-addon4">
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="product" class="form-label">Product :</label>
+            <label for="product" class="form-label" style="color: white">Product :</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="product" aria-describedby="basic-addon3 basic-addon4">
             </div>
         </div>
         <div class="mb-3">
-            <label for="pPrice" class="form-label">Price :</label>
+            <label for="pPrice" class="form-label" style="color: white">Price :</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="pPrice" aria-describedby="basic-addon3 basic-addon4">
             </div>
         </div>
         <div class="mb-3">
-            <label for="pQuantity" class="form-label">Quantity :</label>
+            <label for="pQuantity" class="form-label" style="color: white">Quantity :</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="pQuantity" aria-describedby="basic-addon3 basic-addon4">
             </div>
         </div>
-        <button type="button" class="btn btn-primary" style="right: 170px; position: absolute">Save</button>
-        <button type="button" class="btn btn-secondary" style="right: 85px; position: absolute">Update</button>
-        <button type="button" class="btn btn-danger" onclick="hideAddItemForm()" style="right: 15px; position: absolute">Close</button>
+        <button type="button" id="item_add_button" class="btn btn-primary" style="right: 190px; position: absolute">Save</button>
+        <button type="button" class="btn btn-secondary" style="right: 105px; position: absolute">Update</button>
+        <button type="button" class="btn btn-danger" onclick="hideAddItemForm()" style="right: 35px; position: absolute">Close</button>
     </div>
 </div>
 <div class="container card mb-3" style="width: 18rem;height: 300px; top: 27%; left: 40%; background-color: rgba(198,210,214,0.29)">
@@ -417,6 +392,7 @@
     // Show the welcome section by default
     showSection('welcome');
 </script>
+<script src="../script/script.js"></script>
 
 </body>
 </html>
