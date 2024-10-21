@@ -172,11 +172,11 @@
 <!-- Item Section -->
 <div class="container text-center hidden" id="products">
     <div class="input-group input-group-sm mb-3">
-        <input type="text" class="form-control" placeholder="Input Name/ID">
-        <button type="button" class="btn btn-success" style="border-radius: 0; width: 80px">Search</button>
+        <input type="text" class="form-control" id="itemSearchInput" placeholder="Input Name/ID">
+        <button type="button" class="btn btn-success" id="itemSearchButton" style="border-radius: 0; width: 80px">Search</button>
     </div>
     <div class="d-flex justify-content-between mb-3">
-        <button type="button" class="btn btn-warning" style="color: white; font-weight: bold;">View All Items</button>
+        <button type="button" class="btn btn-warning" id="viewAllItems" style="color: white; font-weight: bold;">View All Items</button>
         <button type="button" class="btn btn-primary" onclick="showAddItemForm()" style="color: white; font-weight: bold;">Add New Item</button>
     </div>
     <div class="d-flex justify-content-start mb-3">
@@ -231,12 +231,12 @@
 <div class="container text-center hidden" id="customers">
     <div>
         <div class="input-group input-group-sm mb-3">
-            <input type="text" class="form-control" placeholder="Input Name/ID/TP">
-            <button type="button" class="btn btn-success" style="border-radius: 0; width: 80px">Search</button>
+            <input type="text" class="form-control" id="customerSearchInput" placeholder="Input Name/ID/TP">
+            <button type="button" class="btn btn-success" id="customerSearchButton" style="border-radius: 0; width: 80px">Search</button>
         </div>
 
         <div class="d-flex justify-content-between mb-3">
-            <button type="button" class="btn btn-warning" style="color: white; font-weight: bold;">View All Customers</button>
+            <button type="button" id="viewAllCustomers" class="btn btn-warning" style="color: white; font-weight: bold;">View All Customers</button>
             <button type="button" class="btn btn-primary" onclick="showAddCustomerForm()" style="font-weight: bold;">Add New Customer</button>
         </div>
 

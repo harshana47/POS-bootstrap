@@ -9,6 +9,9 @@ const updateTable = () => {
                         <td>${item.product}</td>
                         <td>${item.price}</td>
                         <td>${item.quantity}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm delete-item" data-id="${item.id}">Delete</button>
+                        </td>
                     </tr>`;
         $("#item_table_body").append(data);
     });
@@ -33,7 +36,53 @@ $("#item_add_button").on("click", function () {
 
     item_array.push(item);
     updateTable();
-    $("#addItemForm")[0].reset(); // Reset the add item form
+    //clear fields
+    $("#product").val("");
+    $("#pPrice").val("");
+    $("#pQuantity").val("");
+});
+
+// Delete item functionality
+$(document).on("click", ".delete-item", function () {
+    let itemId = $(this).data("id");
+    item_array = item_array.filter(item => item.id !== itemId);
+    updateTable();
+});
+
+// Item Search
+$("#itemSearchButton").on("click", function () {
+    let searchTerm = $("#itemSearchInput").val().toLowerCase().trim();
+    let foundItems = item_array.filter(item =>
+        item.id.toString() === searchTerm ||
+        item.product.toLowerCase().includes(searchTerm)
+    );
+
+    // Clear the table body and display found items
+    $("#item_table_body").empty();
+    if (foundItems.length > 0) {
+        foundItems.forEach(item => {
+            let data = `<tr>
+                            <td>${item.id}</td>
+                            <td>${item.product}</td>
+                            <td>${item.price}</td>
+                            <td>${item.quantity}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm delete-item" data-id="${item.id}">Delete</button>
+                            </td>
+                        </tr>`;
+            $("#item_table_body").append(data);
+        });
+    } else {
+        $("#item_table_body").append('<tr><td colspan="5">No items found.</td></tr>');
+    }
+
+    // Clear the input field after search
+    $("#itemSearchInput").val('');
+});
+
+// View All Items
+$("#viewAllItems").on("click", function () {
+    updateTable();
 });
 
 // Add customer part
@@ -47,6 +96,9 @@ const loadCustomerTable = () => {
                         <td>${customer.name}</td>
                         <td>${customer.address}</td>
                         <td>${customer.contact}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm delete-customer" data-id="${customer.id}">Delete</button>
+                        </td>
                     </tr>`;
         $("#customer_table_body").append(data);
     });
@@ -71,7 +123,53 @@ $("#customer_add_button").on("click", function () {
 
     customer_array.push(customer);
     loadCustomerTable();
-    $("#addCustomerForm")[0].reset(); // Reset the add customer form
+    //clear fields
+    $("#cName").val("");
+    $("#cAddress").val("");
+    $("#cContact").val("");
+});
+
+// Delete customer functionality
+$(document).on("click", ".delete-customer", function () {
+    let customerId = $(this).data("id");
+    customer_array = customer_array.filter(customer => customer.id !== customerId);
+    loadCustomerTable();
+});
+
+// Customer Search
+$("#customerSearchButton").on("click", function () {
+    let searchTerm = $("#customerSearchInput").val().toLowerCase().trim();
+    let foundCustomers = customer_array.filter(customer =>
+        customer.id.toString() === searchTerm ||
+        customer.name.toLowerCase().includes(searchTerm) ||
+        customer.contact.includes(searchTerm)
+    );
+
+    // Clear the table body and display found customers
+    $("#customer_table_body").empty();
+    if (foundCustomers.length > 0) {
+        foundCustomers.forEach(customer => {
+            let data = `<tr>
+                            <td>${customer.id}</td>
+                            <td>${customer.name}</td>
+                            <td>${customer.address}</td>
+                            <td>${customer.contact}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm delete-customer" data-id="${customer.id}">Delete</button>
+                            </td>
+                        </tr>`;
+            $("#customer_table_body").append(data);
+        });
+    } else {
+        $("#customer_table_body").append('<tr><td colspan="5">No customers found.</td></tr>');
+    }
+
+    // Clear the input field after search
+    $("#customerSearchInput").val('');
+});
+// View All Customers
+$("#viewAllCustomers").on("click", function () {
+    loadCustomerTable();
 });
 
 // Order part
@@ -96,6 +194,7 @@ const loadOrderTable = () => {
     });
 };
 
+// Customer search and order
 $("#oCustomer").on("keypress", function (e) {
     if (e.which === 13) { // Check if Enter key is pressed
         let customer_contact = $(this).val(); // Get the contact input value
