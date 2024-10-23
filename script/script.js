@@ -177,6 +177,7 @@ $("#viewAllCustomers").on("click", function () {
 
 // Order part
 let order_array = [];
+let history_array = [];
 
 const loadOrderTable = () => {
     $("#cashier_tbody").empty();
@@ -194,6 +195,24 @@ const loadOrderTable = () => {
                             </td>
                         </tr>`;
             $("#cashier_tbody").append(data);
+        }
+    });
+};
+const loadHistoryTable = () => {
+    $("#history_tbody").empty();
+    history_array.forEach((order) => {
+        let item = item_array.find(i => i.id === order.item_id);
+        let customer = customer_array.find(c => c.id === order.customer_id);
+        if (item && customer) {
+            let data = `<tr>
+                            <td>${order.id}</td>
+                            <td>${customer.name}</td>
+                            <td>${new Date().toISOString().slice(0, 10)}</td>
+                            <td>${item.product}</td>
+                            <td>${order.quantity}</td>
+                            <td>${order.total_price.toFixed(2)}</td>
+                        </tr>`;
+            $("#history_tbody").append(data);
         }
     });
 };
@@ -222,8 +241,50 @@ $("#oCustomer").on("keypress", function (e) {
     }
 });
 
+// Customer Search for History
+$("#customerSearchButtonHistory").on("click", function () {
+    let searchTerm = $("#customerSearchInputHistory").val().toLowerCase().trim();
+
+    // Clear the history table body
+    $("#history_tbody").empty();
+
+    // Find all orders related to the searched customer
+    let foundOrders = order_array.filter(order => {
+        let customer = customer_array.find(c => c.id === order.customer_id);
+        return customer && customer.name.toLowerCase().includes(searchTerm);
+    });
+
+    // Populate the history table with found orders
+    if (foundOrders.length > 0) {
+        foundOrders.forEach(order => {
+            let item = item_array.find(i => i.id === order.item_id);
+            let customer = customer_array.find(c => c.id === order.customer_id);
+            if (item && customer) {
+                let data = `<tr>
+                                <td>${order.id}</td>
+                                <td>${customer.name}</td>
+                                <td>${new Date().toISOString().slice(0, 10)}</td>
+                                <td>${item.product}</td>
+                                <td>${order.quantity}</td>
+                                <td>${order.total_price.toFixed(2)}</td>
+                            </tr>`;
+                $("#history_tbody").append(data);
+            }
+        });
+    } else {
+        $("#history_tbody").append('<tr><td colspan="6">No orders found for this customer.</td></tr>');
+    }
+
+    // Clear the input field after search
+    $("#customerSearchInput").val('');
+});
+
+$("#viewAllOrders").on("click", function (e) {
+    loadHistoryTable();
+})
+
 $("#order_add_button").on("click", function () {
-    let customer_contact = $("#oCustomer").val(); // Get the contact input value
+    let customer_contact = $("#oCustomer").val();
     let item_id = parseInt($("#oProduct").val());
     let quantity = parseInt($("#oQuantity").val());
 
@@ -240,7 +301,6 @@ $("#order_add_button").on("click", function () {
         return;
     }
 
-    // Use the customer ID from the found customer
     let customer_id = customer.id;
 
     // Find the item
@@ -261,16 +321,17 @@ $("#order_add_button").on("click", function () {
     };
 
     order_array.push(order);
+    history_array.push(order);
     dailyIncome += total_price; // Update daily income
     loadOrderTable();
-    updateIncomeDisplay(); // Update display
-    customerCount++; // Increment customer count
-    updateIncomeDisplay(); // Update display
+    loadHistoryTable(); // Update the history table
+    updateIncomeDisplay();
 
     // Reset individual fields
     $("#oProduct").val('');
     $("#oQuantity").val('');
 });
+
 
 // Function to update income and customer count display
 const updateIncomeDisplay = () => {
@@ -284,12 +345,15 @@ $("#show_invoice_btn").on("click", function () {
     const date = currentDate.toLocaleDateString();
     const time = currentDate.toLocaleTimeString();
 
-    // Assuming you have a way to calculate these values
-    const itemCount = document.querySelectorAll('#cashier_tbody tr').length; // Count of items in the order
-    const customerName = document.getElementById('oCustomerName').value || "Not specified"; // Get customer name
-    const subtotal = calculateSubtotal(); // Function to calculate subtotal
+    const itemCount = document.querySelectorAll('#cashier_tbody tr').length;
+    const customerName = document.getElementById('oCustomerName').value || "Not specified";
+    const subtotal = calculateSubtotal();
 
-    // Update invoice information
+    $("#cashier_tbody").empty();
+
+    order_array = [];
+    order_array.clear();
+
     document.querySelector('#invoice h6:nth-of-type(1)').textContent = `Date: ${date}`;
     document.querySelector('#invoice h6:nth-of-type(2)').textContent = `Time: ${time}`;
     document.querySelector('#invoice h6:nth-of-type(3)').textContent = `Item Count: ${itemCount}`;
@@ -298,18 +362,33 @@ $("#show_invoice_btn").on("click", function () {
     document.querySelector('#invoice h6:nth-of-type(6)').textContent = `Daily Income: $${dailyIncome.toFixed(2)}`;
     document.querySelector('#invoice h6:nth-of-type(7)').textContent = `Customer Count: ${customerCount}`;
 
-    // Show the invoice
     document.getElementById('invoice').classList.remove('hidden');
+
 });
 
-// Example function to calculate subtotal
+// Done button functionality
+$("#done").on("click", function () {
+    // Clear invoice fields
+    document.querySelector('#invoice h6:nth-of-type(1)').textContent = '';
+    document.querySelector('#invoice h6:nth-of-type(2)').textContent = '';
+    document.querySelector('#invoice h6:nth-of-type(3)').textContent = '';
+    document.querySelector('#invoice h6:nth-of-type(4)').textContent = '';
+    document.querySelector('#invoice h6:nth-of-type(5)').textContent = '';
+    document.querySelector('#invoice h6:nth-of-type(6)').textContent = '';
+    document.querySelector('#invoice h6:nth-of-type(7)').textContent = '';
+
+    // Hide the invoice display
+    document.getElementById('invoice').classList.add('hidden');
+});
+
+
 function calculateSubtotal() {
     let subtotal = 0;
     const rows = document.querySelectorAll('#cashier_tbody tr');
     rows.forEach(row => {
-        const price = parseFloat(row.cells[3].textContent); // Assuming price is in the 4th column
-        const quantity = parseInt(row.cells[2].textContent); // Assuming quantity is in the 3rd column
-        subtotal += price ; // Add to subtotal
+        const price = parseFloat(row.cells[3].textContent);
+        const quantity = parseInt(row.cells[2].textContent);
+        subtotal += price ;
     });
     return subtotal;
 }
