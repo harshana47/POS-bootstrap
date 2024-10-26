@@ -47,7 +47,7 @@
 <body>
 
 <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg bg-body-tertiary" style="margin-bottom: 10px; margin-left: 270px; width: 1000px;">
+<nav class="navbar navbar-expand-lg bg-body-tertiary" style="margin-bottom: 10px; ">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -76,39 +76,38 @@
     <h1 class="maintag" style="font-size: 76px;">Welcome!</h1>
     <p style="font-size: 26px;margin-top: -20px">We’re glad to have you here.</p>
 
-    <div class="d-flex flex-wrap justify-content-center" style="margin-top: 10px;">
-        <div class="card" style="width: 10rem; margin-top: 40px; margin-bottom: 5px;  left: 60px; bottom: -200px">
-            <img src="../assets/images/icons/img_11.png" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h3 class="card-title" id="income" style="color: white; font-weight: bold;">0$</h3>
-            </div>
-        </div>
-
-        <div class="card" style="width: 10rem; margin-top: 40px; left: 280px; bottom: -200px">
-            <img src="../assets/images/icons/img_13.png" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h3 class="card-title" id="customerCount" style="color: white; font-weight: bold;">0</h3>
-            </div>
-        </div>
-
-        <div class="card" style="width: 15rem; margin: 40px; left: -500px; top: -50px">
+    <div class="d-flex flex-wrap justify-content-center" style="margin: 20px;">
+        <div class="card" style="width: 15rem; margin: 20px; ">
             <img src="../assets/images/icons/img_5.png" class="card-img-top" alt="...">
             <div class="card-body">
                 <a href="#" class="btn btn-primary" onclick="showSection('products')" style="width: 100%; border-radius: 0;">Items</a>
             </div>
         </div>
 
-        <div class="card" style="width: 15rem; margin: 20px; left: 160px; top: -270px">
+        <div class="card" style="width: 15rem; margin: 20px; ">
             <img src="../assets/images/icons/img_7.png" class="card-img-top" alt="...">
             <div class="card-body">
                 <a href="#" class="btn btn-primary" onclick="showSection('customers')" style="width: 100%; border-radius: 0;">Customers</a>
             </div>
         </div>
 
-        <div class="card" style="width: 15rem; margin: 20px; left: 200px; top: -270px">
+        <div class="card" style="width: 15rem; margin: 20px; ">
             <img src="../assets/images/icons/img_11.jpg" class="card-img-top" alt="...">
             <div class="card-body">
                 <a href="#" class="btn btn-primary" onclick="showSection('orders')" style="width: 100%; border-radius: 0;">Orders</a>
+            </div>
+        </div>
+        <div class="card" style="width: 10rem; margin-top: 40px; ">
+            <img src="../assets/images/icons/img_11.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h3 class="card-title" id="income" style="color: white; font-weight: bold;">0$</h3>
+            </div>
+        </div>
+
+        <div class="card" style="width: 10rem; margin-top: 40px;">
+            <img src="../assets/images/icons/img_13.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h3 class="card-title" id="customerCount" style="color: white; font-weight: bold;">0</h3>
             </div>
         </div>
     </div>
@@ -312,7 +311,7 @@
             </div>
         </div>
         <button type="button" id="customer_add_button" class="btn btn-primary" style="right: 190px; position: absolute">Save</button>
-        <button type="button" class="btn btn-secondary" style="right: 105px; position: absolute">Update</button>
+        <button type="button" id="customer_update_btn" class="btn btn-secondary" style="right: 105px; position: absolute">Update</button>
         <button type="button" class="btn btn-danger" onclick="hideAddCustomerForm()"  style="right: 35px; position: absolute">Close</button>
     </div>
 </div>
@@ -340,7 +339,7 @@
             </div>
         </div>
         <button type="button" id="item_add_button" class="btn btn-primary" style="right: 190px; position: absolute">Save</button>
-        <button type="button" class="btn btn-secondary" style="right: 105px; position: absolute">Update</button>
+        <button type="button" id="item_update_btn" class="btn btn-secondary" style="right: 105px; position: absolute">Update</button>
         <button type="button" class="btn btn-danger" onclick="hideAddItemForm()" style="right: 35px; position: absolute">Close</button>
     </div>
 </div>
@@ -448,7 +447,10 @@
     // Show the welcome section by default
     showSection('welcome');
 </script>
-<script src="../script/script.js"></script>
+<script type="module" src="../controller/CustomerController.js"></script>
+<script type="module" src="../controller/OrderController.js"></script>
+<script type="module" src="../controller/ProductController.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
