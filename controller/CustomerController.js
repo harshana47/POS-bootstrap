@@ -89,9 +89,9 @@ $(document).on("click", ".delete-customer", function () {
                 text: "Your file has been deleted.",
                 icon: "success"
             });
-            let customerId = $(this).data("id");
-            customer_array = customer_array.filter(customer => customer.id !== customerId);
+            customer_array.splice(selected_customer_index, 1);
             loadCustomerTable();
+            cleanCustomerForm()
         } else if (
             /* Read more about handling dismissals below */
             result.dismiss === Swal.DismissReason.cancel

@@ -43,13 +43,6 @@ const loadHistoryTable = () => {
     });
 };
 
-// Delete order functionality
-$(document).on("click", ".delete-order", function () {
-    let orderId = $(this).data("id");
-    order_array = order_array.filter(order => order.id !== orderId);
-    loadOrderTable();
-});
-
 // Customer search and order
 $("#oCustomer").on("keypress", function (e) {
     if (e.which === 13) { // Check if Enter key is pressed
@@ -65,6 +58,35 @@ $("#oCustomer").on("keypress", function (e) {
             $("#oCustomerName").val(''); // Clear the name field if not found
         }
     }
+});
+
+let selected_order_index = null;
+
+// Log order row data on click by index
+$('#cashier_tbody').on("click", "tr", function () {
+    let index = $(this).index();
+    let order = order_array[index];
+    console.log(`Order ID: ${order.id}, Customer: ${order.customer_id}, Product: ${order.item_id}, Quantity: ${order.quantity}, Price: ${order.total_price}`);
+
+    selected_order_index = $(this).index();
+
+    let customer = order.customer_id;
+    let product = order.item_id;
+    let quantity = order.quantity;
+    let price = order.total_price;
+
+    $('#oCustomerId').val(customer);
+    $('#oProductId').val(product);
+    $('#oQuantity').val(quantity);
+    $('#oPrice').val(price);
+
+});
+
+// Delete order functionality
+$(document).on("click", ".delete-order", function () {
+    let orderId = $(this).data("id");
+    order_array.splice(selected_order_index, 1);
+    loadOrderTable();
 });
 
 // Customer Search for History

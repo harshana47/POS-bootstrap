@@ -70,6 +70,7 @@ $(document).on("click", ".delete-item", function () {
         },
         buttonsStyling: false
     });
+
     swalWithBootstrapButtons.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -80,26 +81,26 @@ $(document).on("click", ".delete-item", function () {
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
+            // Filter out the item to be deleted
+            item_array.splice(selected_item_index, 1);
+            updateTable();
+            cleanProductForm();
+
             swalWithBootstrapButtons.fire({
                 title: "Deleted!",
-                text: "Your file has been deleted.",
+                text: "Your item has been deleted.",
                 icon: "success"
             });
-            let itemId = $(this).data("id");
-            item_array = item_array.filter(item => item.id !== itemId);
-            updateTable();
-        } else if (
-            /* Read more about handling dismissals below */
-            result.dismiss === Swal.DismissReason.cancel
-        ) {
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({
                 title: "Cancelled",
-                text: "Your imaginary file is safe :)",
+                text: "Your item is safe :)",
                 icon: "error"
             });
         }
     });
 });
+
 
 // Item Search
 $("#itemSearchButton").on("click", function () {
