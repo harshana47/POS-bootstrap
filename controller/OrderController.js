@@ -203,7 +203,7 @@ const updateIncomeDisplay = () => {
     $("#customerCount").text(`${customerCount}`);
 };
 
-// Show invoice
+//checkout
 $("#show_invoice_btn").on("click", function () {
     Swal.fire({
         title: "Do you want to save the changes?",
@@ -223,9 +223,10 @@ $("#show_invoice_btn").on("click", function () {
             const subtotal = calculateSubtotal();
 
             $("#cashier_tbody").empty();
+            order_array.length = 0;
+
 
             order_array = [];
-            order_array.clear;
 
             document.querySelector('#invoice h6:nth-of-type(1)').textContent = `Date: ${date}`;
             document.querySelector('#invoice h6:nth-of-type(2)').textContent = `Time: ${time}`;
@@ -236,15 +237,14 @@ $("#show_invoice_btn").on("click", function () {
             document.querySelector('#invoice h6:nth-of-type(7)').textContent = `Customer Count: ${customerCount}`;
 
             document.getElementById('invoice').classList.remove('hidden');
-            order_array = [];
-            order_array.clear;
         } else if (result.isDenied) {
             Swal.fire("Changes are not saved", "", "info");
         }
     });
 });
 
-// Done button functionality
+
+// Done button
 $("#done").on("click", function () {
     document.querySelector('#invoice h6:nth-of-type(1)').textContent = '';
     document.querySelector('#invoice h6:nth-of-type(2)').textContent = '';
