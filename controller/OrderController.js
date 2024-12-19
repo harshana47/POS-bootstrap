@@ -161,23 +161,30 @@ $("#order_add_button").on("click", function () {
 
     let total_price = item.price * quantity;
 
-    // let order = {
-    //     id: order_array.length + 1,
-    //     customer_id: customer_id,
-    //     item_id: item_id,
-    //     quantity: quantity,
-    //     total_price: total_price
-    // };
-    let order = new OrderModel(
-        order_array.length + 1,
-        customer_id,
-        item_id,
-        quantity,
-        total_price
-    )
+    // Check item already exists
+    let existingOrderIndex = order_array.findIndex(order => order.item_id === item_id && order.customer_id === customer_id);
 
-    order_array.push(order);
-    history_array.push(order);
+    if (existingOrderIndex !== -1) {
+        let existingOrder = order_array[existingOrderIndex];
+        existingOrder.quantity += quantity; // update quantity
+        existingOrder.total_price = existingOrder.quantity * item.price; // update total price
+
+        history_array[existingOrderIndex].quantity = existingOrder.quantity;
+        history_array[existingOrderIndex].total_price = existingOrder.total_price;
+
+    } else {
+        // If item does not exist, create a new order
+        let order = new OrderModel(
+            order_array.length + 1,
+            customer_id,
+            item_id,
+            quantity,
+            total_price
+        );
+        order_array.push(order);
+        history_array.push(order);
+    }
+
     dailyIncome += total_price;
     loadOrderTable();
     loadHistoryTable(); // Update the history table
@@ -187,6 +194,7 @@ $("#order_add_button").on("click", function () {
     $("#oProduct").val('');
     $("#oQuantity").val('');
 });
+
 
 
 // update income and customer count display
