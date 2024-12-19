@@ -152,7 +152,6 @@ $("#viewAllCustomers").on("click", function () {
 
 let selected_customer_index = null;
 
-// Log customer row data on click by index
 $('#customer_table_body').on("click", "tr", function () {
     let index = $(this).index();
     let customer = customer_array[index];
