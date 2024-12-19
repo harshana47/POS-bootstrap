@@ -6,6 +6,7 @@ let customerCount = 0;
 
 const loadOrderTable = () => {
     $("#cashier_tbody").empty();
+
     order_array.forEach((order) => {
         let item = item_array.find(i => i.id === order.item_id);
 
@@ -43,26 +44,26 @@ const loadHistoryTable = () => {
     });
 };
 
-// Customer search and order
+// customer search and order
 $("#oCustomer").on("keypress", function (e) {
-    if (e.which === 13) { // Check if Enter key is pressed
-        let customer_contact = $(this).val(); // Get the contact input value
+    if (e.which === 13) {
+        let customer_contact = $(this).val();
 
         // Find the customer by contact
         let customer = customer_array.find(c => c.contact === customer_contact);
         if (customer) {
             // If customer is found, populate the customer name input
-            $("#oCustomerName").val(customer.name); // Assuming customer has a 'name' property
+            $("#oCustomerName").val(customer.name);
         } else {
             alert("Customer not found.");
-            $("#oCustomerName").val(''); // Clear the name field if not found
+            $("#oCustomerName").val('');
         }
     }
 });
 
 let selected_order_index = null;
 
-// Log order row data on click by index
+// log order row data on click by index
 $('#cashier_tbody').on("click", "tr", function () {
     let index = $(this).index();
     let order = order_array[index];
@@ -82,27 +83,27 @@ $('#cashier_tbody').on("click", "tr", function () {
 
 });
 
-// Delete order functionality
+// delete order functionality
 $(document).on("click", ".delete-order", function () {
     let orderId = $(this).data("id");
     order_array.splice(selected_order_index, 1);
     loadOrderTable();
 });
 
-// Customer Search for History
+// customer Search for History
 $("#customerSearchButtonHistory").on("click", function () {
     let searchTerm = $("#customerSearchInputHistory").val().toLowerCase().trim();
 
-    // Clear the history table body
+    // clear the history table body
     $("#history_tbody").empty();
 
-    // Find all orders related to the searched customer
+    // find all orders related to the searched customer
     let foundOrders = order_array.filter(order => {
         let customer = customer_array.find(c => c.id === order.customer_id);
         return customer && customer.name.toLowerCase().includes(searchTerm);
     });
 
-    // Populate the history table with found orders
+    // populate the history table with found orders
     if (foundOrders.length > 0) {
         foundOrders.forEach(order => {
             let item = item_array.find(i => i.id === order.item_id);
@@ -123,7 +124,7 @@ $("#customerSearchButtonHistory").on("click", function () {
         $("#history_tbody").append('<tr><td colspan="6">No orders found for this customer.</td></tr>');
     }
 
-    // Clear the input field after search
+    // clear the input field after search
     $("#customerSearchInput").val('');
 });
 
@@ -136,13 +137,13 @@ $("#order_add_button").on("click", function () {
     let item_id = parseInt($("#oProduct").val());
     let quantity = parseInt($("#oQuantity").val());
 
-    // Validate inputs
+    // validate inputs
     if (!customer_contact || isNaN(item_id) || isNaN(quantity) || quantity <= 0) {
         alert("Please enter valid order details.");
         return;
     }
 
-    // Find the customer by contact
+    // find the customer by contact
     let customer = customer_array.find(c => c.contact === customer_contact);
     if (!customer) {
         alert("Customer not found.");
@@ -151,7 +152,7 @@ $("#order_add_button").on("click", function () {
 
     let customer_id = customer.id;
 
-    // Find the item
+    // find the item
     let item = item_array.find(i => i.id === item_id);
     if (!item) {
         alert("Item not found.");
@@ -177,7 +178,7 @@ $("#order_add_button").on("click", function () {
 
     order_array.push(order);
     history_array.push(order);
-    dailyIncome += total_price; // Update daily income
+    dailyIncome += total_price;
     loadOrderTable();
     loadHistoryTable(); // Update the history table
     updateIncomeDisplay();
@@ -188,7 +189,7 @@ $("#order_add_button").on("click", function () {
 });
 
 
-// Function to update income and customer count display
+// update income and customer count display
 const updateIncomeDisplay = () => {
     $("#income").text(`$${dailyIncome.toFixed(2)}`);
     $("#customerCount").text(`${customerCount}`);
@@ -203,7 +204,6 @@ $("#show_invoice_btn").on("click", function () {
         confirmButtonText: "Save",
         denyButtonText: `Don't save`
     }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
             Swal.fire("Saved!", "", "success");
             const currentDate = new Date();
@@ -228,6 +228,8 @@ $("#show_invoice_btn").on("click", function () {
             document.querySelector('#invoice h6:nth-of-type(7)').textContent = `Customer Count: ${customerCount}`;
 
             document.getElementById('invoice').classList.remove('hidden');
+            order_array = [];
+            order_array.clear;
         } else if (result.isDenied) {
             Swal.fire("Changes are not saved", "", "info");
         }
@@ -236,7 +238,6 @@ $("#show_invoice_btn").on("click", function () {
 
 // Done button functionality
 $("#done").on("click", function () {
-    // Clear invoice fields
     document.querySelector('#invoice h6:nth-of-type(1)').textContent = '';
     document.querySelector('#invoice h6:nth-of-type(2)').textContent = '';
     document.querySelector('#invoice h6:nth-of-type(3)').textContent = '';
