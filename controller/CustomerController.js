@@ -93,7 +93,6 @@ $(document).on("click", ".delete-customer", function () {
             loadCustomerTable();
             cleanCustomerForm()
         } else if (
-            /* Read more about handling dismissals below */
             result.dismiss === Swal.DismissReason.cancel
         ) {
             swalWithBootstrapButtons.fire({
@@ -220,7 +219,6 @@ $("#customer_update_btn").on("click", function () {
                 });
                 customer_array[index] = customer;
                 loadCustomerTable();
-                // Clear fields
                 cleanCustomerForm()
             }
         });
