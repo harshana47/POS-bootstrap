@@ -2,8 +2,8 @@ export default class ProductModel{
     constructor(id,product,quantity,price) {
         this._id = id;
         this._product = product;
-        this._quantity = quantity;
         this._price = price;
+        this._quantity = quantity;
     }
 
     get id() {

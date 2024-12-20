@@ -185,40 +185,13 @@
         <tr>
             <th>ID</th>
             <th>Product</th>
-            <th>Quantity</th>
             <th>Price</th>
+            <th>Quantity</th>
         </tr>
         </thead>
         <tbody id="item_table_body">
         <tr>
-            <td>1</td>
-            <td>Raththi</td>
-            <td>25</td>
-            <td>450.00</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Raththi</td>
-            <td>25</td>
-            <td>450.00</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Raththi</td>
-            <td>25</td>
-            <td>450.00</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Raththi</td>
-            <td>25</td>
-            <td>450.00</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Raththi</td>
-            <td>25</td>
-            <td>450.00</td>
+
         </tr>
         </tbody>
     </table>
@@ -327,15 +300,15 @@
             </div>
         </div>
         <div class="mb-3">
-            <label for="pPrice" class="form-label" style="color: white">Price :</label>
-            <div class="input-group">
-                <input type="text" class="form-control" id="pPrice" aria-describedby="basic-addon3 basic-addon4">
-            </div>
-        </div>
-        <div class="mb-3">
             <label for="pQuantity" class="form-label" style="color: white">Quantity :</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="pQuantity" aria-describedby="basic-addon3 basic-addon4">
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="pPrice" class="form-label" style="color: white">Price :</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="pPrice" aria-describedby="basic-addon3 basic-addon4">
             </div>
         </div>
         <button type="button" id="item_add_button" class="btn btn-primary" style="right: 190px; position: absolute">Save</button>
@@ -343,6 +316,8 @@
         <button type="button" class="btn btn-danger" onclick="hideAddItemForm()" style="right: 35px; position: absolute">Close</button>
     </div>
 </div>
+
+<!--invoice-->
 <div class="container card hidden" id="invoice" style="width: 18rem;height: 330px; top: 27%; left: 40%; background-color: rgba(198,210,214,0.29)">
     <div class="card-body"  style="text-align: left">
         <h5 class="card-title" style="text-decoration: underline; color: white;">Order Summary</h5>
@@ -428,14 +403,6 @@
         document.getElementById('addCustomerForm').classList.add('hidden');
     }
 
-    function showInvoice() {
-        document.getElementById('invoice').classList.remove('hidden');
-    }
-
-    function hideInvoice() {
-        document.getElementById('invoice').classList.add('hidden');
-    }
-
     function showHistory() {
         document.getElementById('History').classList.remove('hidden');
     }
@@ -444,7 +411,6 @@
         document.getElementById('History').classList.add('hidden');
     }
 
-    // Show the welcome section by default
     showSection('welcome');
 </script>
 <script type="module" src="../controller/CustomerController.js"></script>

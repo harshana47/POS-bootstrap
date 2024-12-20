@@ -49,10 +49,9 @@ $("#oCustomer").on("keypress", function (e) {
     if (e.which === 13) {
         let customer_contact = $(this).val();
 
-        // Find the customer by contact
+        // find  customer by contact
         let customer = customer_array.find(c => c.contact === customer_contact);
         if (customer) {
-            // If customer is found, populate the customer name input
             $("#oCustomerName").val(customer.name);
         } else {
             alert("Customer not found.");
@@ -90,20 +89,18 @@ $(document).on("click", ".delete-order", function () {
     loadOrderTable();
 });
 
-// customer Search for History
+//for History
 $("#customerSearchButtonHistory").on("click", function () {
     let searchTerm = $("#customerSearchInputHistory").val().toLowerCase().trim();
 
     // clear the history table body
     $("#history_tbody").empty();
 
-    // find all orders related to the searched customer
     let foundOrders = order_array.filter(order => {
         let customer = customer_array.find(c => c.id === order.customer_id);
         return customer && customer.name.toLowerCase().includes(searchTerm);
     });
 
-    // populate the history table with found orders
     if (foundOrders.length > 0) {
         foundOrders.forEach(order => {
             let item = item_array.find(i => i.id === order.item_id);
@@ -137,7 +134,6 @@ $("#order_add_button").on("click", function () {
     let item_id = parseInt($("#oProduct").val());
     let quantity = parseInt($("#oQuantity").val());
 
-    // validate inputs
     if (!customer_contact || isNaN(item_id) || isNaN(quantity) || quantity <= 0) {
         alert("Please enter valid order details.");
         return;
@@ -158,16 +154,22 @@ $("#order_add_button").on("click", function () {
         alert("Item not found.");
         return;
     }
+    if (item.quantity < quantity) {
+        alert("Not enough stock available.");
+        return;
+    }
 
     let total_price = item.price * quantity;
+
+    item.quantity -= quantity;
 
     // Check item already exists
     let existingOrderIndex = order_array.findIndex(order => order.item_id === item_id && order.customer_id === customer_id);
 
     if (existingOrderIndex !== -1) {
         let existingOrder = order_array[existingOrderIndex];
-        existingOrder.quantity += quantity; // update quantity
-        existingOrder.total_price = existingOrder.quantity * item.price; // update total price
+        existingOrder.quantity += quantity;
+        existingOrder.total_price = existingOrder.quantity * item.price;
 
         history_array[existingOrderIndex].quantity = existingOrder.quantity;
         history_array[existingOrderIndex].total_price = existingOrder.total_price;
@@ -187,17 +189,32 @@ $("#order_add_button").on("click", function () {
 
     dailyIncome += total_price;
     loadOrderTable();
-    loadHistoryTable(); // Update the history table
+    loadHistoryTable();
     updateIncomeDisplay();
+    loadItemTable()
 
-    // Reset individual fields
     $("#oProduct").val('');
     $("#oQuantity").val('');
 });
 
+const loadItemTable = () => {
+    $("#item_table_body").empty();
+    item_array.forEach((item) => {
+        let data = `<tr>
+                        <td>${item.id}</td>
+                        <td>${item.product}</td>
+                        <td>${item.price}</td>
+                        <td>${item.quantity}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm delete-item" data-id="${item.id}">Delete</button>
+                        </td>
+                    </tr>`;
+        $("#item_table_body").append(data);
+    });
+};
 
 
-// update income and customer count display
+// update income and customer count
 const updateIncomeDisplay = () => {
     $("#income").text(`$${dailyIncome.toFixed(2)}`);
     $("#customerCount").text(`${customerCount}`);
@@ -221,43 +238,86 @@ $("#show_invoice_btn").on("click", function () {
             const itemCount = document.querySelectorAll('#cashier_tbody tr').length;
             const customerName = document.getElementById('oCustomerName').value || "Not specified";
             const subtotal = calculateSubtotal();
+            customerCount +=1;
+            printInvoice()
+
 
             $("#cashier_tbody").empty();
             order_array.length = 0;
 
-
             order_array = [];
 
-            document.querySelector('#invoice h6:nth-of-type(1)').textContent = `Date: ${date}`;
-            document.querySelector('#invoice h6:nth-of-type(2)').textContent = `Time: ${time}`;
-            document.querySelector('#invoice h6:nth-of-type(3)').textContent = `Item Count: ${itemCount}`;
-            document.querySelector('#invoice h6:nth-of-type(4)').textContent = `Customer: ${customerName}`;
-            document.querySelector('#invoice h6:nth-of-type(5)').textContent = `Sub Total: $${subtotal.toFixed(2)}`;
-            document.querySelector('#invoice h6:nth-of-type(6)').textContent = `Daily Income: $${dailyIncome.toFixed(2)}`;
-            document.querySelector('#invoice h6:nth-of-type(7)').textContent = `Customer Count: ${customerCount}`;
-
-            document.getElementById('invoice').classList.remove('hidden');
         } else if (result.isDenied) {
             Swal.fire("Changes are not saved", "", "info");
         }
     });
 });
 
+function printInvoice() {
+    let orderItems = [];
+    let totalAmount = 0;
 
-// Done button
-$("#done").on("click", function () {
-    document.querySelector('#invoice h6:nth-of-type(1)').textContent = '';
-    document.querySelector('#invoice h6:nth-of-type(2)').textContent = '';
-    document.querySelector('#invoice h6:nth-of-type(3)').textContent = '';
-    document.querySelector('#invoice h6:nth-of-type(4)').textContent = '';
-    document.querySelector('#invoice h6:nth-of-type(5)').textContent = '';
-    document.querySelector('#invoice h6:nth-of-type(6)').textContent = '';
-    document.querySelector('#invoice h6:nth-of-type(7)').textContent = '';
+    const itemsTable = document.getElementById("cashier_tbody").children;
 
-    // Hide the invoice display
-    document.getElementById('invoice').classList.add('hidden');
-});
+    for (let i = 0; i < itemsTable.length; i++) {
+        let row = itemsTable[i];
 
+        let itemName = row.cells[0].innerText;
+        let qty = row.cells[1].innerText;
+        let price = row.cells[2].innerText;
+        let total = row.cells[3].innerText;
+
+        orderItems.push({ itemName, qty, price, total });
+        totalAmount += parseFloat(total);
+    }
+
+    let currentDateTime = new Date();
+    let formattedDate = currentDateTime.toLocaleDateString();
+    let formattedTime = currentDateTime.toLocaleTimeString();
+
+    //bill content
+    let billContent = `
+        <h2>Invoice</h2>
+        <p><strong>Date:</strong> ${formattedDate}</p>
+        <p><strong>Time:</strong> ${formattedTime}</p>
+        <p><strong>Customer:</strong> ${document.getElementById('oCustomerName').value}</p>
+        <p><strong>Item Count:</strong> ${itemsTable.length}</p>
+        <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+    // Add items to the bill
+    orderItems.forEach(item => {
+        billContent += `
+            <tr>
+                <td>${item.itemName}</td>
+                <td>${item.qty}</td>
+                <td>${item.price}</td>
+                <td>${item.total}</td>
+            </tr>`;
+    });
+
+    billContent += `
+        </tbody>
+        </table>
+        <h3 style="margin-top: 20px;">Total Amount: Rs.${totalAmount.toFixed(2)}</h3>
+    `;
+
+    // new window and print bill
+    let printWindow = window.open('', '', 'height=600,width=800');
+    printWindow.document.write('<html><head><title>Invoice</title></head><body>');
+    printWindow.document.write(billContent);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print(); // Trigger the print dialog
+}
 
 function calculateSubtotal() {
     let subtotal = 0;

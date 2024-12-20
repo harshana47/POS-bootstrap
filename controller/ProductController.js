@@ -37,8 +37,9 @@ $("#item_add_button").on("click", function () {
     let item = new ProductModel(
         item_array.length + 1,
         product,
-        price,
-        quantity
+        quantity,
+        price
+
     );
 
     Swal.fire({
