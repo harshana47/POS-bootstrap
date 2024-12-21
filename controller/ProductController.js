@@ -181,8 +181,9 @@ $("#item_update_btn").on("click", function () {
     let item = new ProductModel(
         item_array[index].id,
         product,
-        price,
-        quantity
+        quantity,
+        price
+
     );
     Swal.fire({
         title: "Are you sure?",
@@ -202,7 +203,6 @@ $("#item_update_btn").on("click", function () {
         }
         item_array[index] = item;
         updateTable();
-        // Clear fields
         cleanProductForm()
     });
 
